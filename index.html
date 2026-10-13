@@ -3,912 +3,579 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Volens — Systems with intent</title>
-<meta name="description" content="Volens builds autonomous agents and the AI systems around them for the enterprise: intelligent document processing, agentic automation, multi-agent orchestration and physical AI. Built on Claude. Pune, India.">
+<title>Volens | Autonomous agents for enterprise operations</title>
+<meta name="description" content="Volens builds AI agents that read your documents, apply your policies, act in SAP, Salesforce, ServiceNow and Microsoft 365, and record every step. Agentic automation for finance, insurance, banking and shared services. Pune, India.">
 <link rel="canonical" href="https://volens.tech/">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://volens.tech/">
-<meta property="og:title" content="Volens — Systems with intent">
-<meta property="og:description" content="Autonomous agents for enterprise operations. Read, reason, act, prove. Built on Claude.">
-<meta property="og:image" content="https://volens.tech/og.png">
-<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#070A12">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23070A12'/%3E%3Cpath d='M6 8 L16 26 L26 8' stroke='%23FF8A3D' stroke-width='3.4' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%238FD8FF'/%3E%3C/svg%3E">
-<style>
-:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-img{max-width:100%}
-[hidden]{display:none!important}
-</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-<style>
-/* Layout: one dark, quiet "control room". Graphite-blue ground, fine engineering grid, glass panels with HUD brackets. Signal orange = intent and action; ice cyan = data and traces. Wide margins, large type, restrained motion. */
-:root{
-  --bg:#070A12; --bg-2:#0C111C; --bg-3:#111827; --glass:rgba(16,22,36,.74);
-  --line:rgba(140,170,220,.12); --line-2:rgba(140,170,220,.24); --grid:rgba(140,170,220,.065);
-  --fg:#EDF1F8; --fg-2:#A6B1C6; --fg-3:#687590;
-  --signal:#FF8A3D; --signal-2:#FFB07A; --signal-ink:#1B0D03;
-  --ice:#8FD8FF; --ice-2:#C7EDFF; --ok:#4ADE9B; --warn:#FBBF24;
-  --font-display:"Sora","Avenir Next","Helvetica Neue",Arial,sans-serif;
-  --font-body:"IBM Plex Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,#000 25%,transparent 75%)}
-a{color:inherit;text-decoration:none}
-img,svg,canvas{max-width:100%}
-h1,h2,h3,h4{font-family:var(--font-display);line-height:1.06;margin:0;text-wrap:balance;letter-spacing:-.022em}
-p{margin:0}
-button{font-family:inherit}
-.wrap{max-width:1200px;margin:0 auto;padding-inline:clamp(18px,4.5vw,48px);position:relative;z-index:1}
-section{padding-block:clamp(80px,10vw,140px);position:relative}
-.eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--signal);display:inline-flex;align-items:center;gap:10px}
-.eyebrow::before{content:"";width:22px;height:1px;background:var(--signal)}
-.lede{color:var(--fg-2);font-size:clamp(16.5px,1.35vw,19px);max-width:62ch}
-.sec-head{display:grid;gap:20px;max-width:820px;margin-bottom:clamp(40px,5vw,64px)}
-.sec-head h2{font-size:clamp(32px,4.4vw,56px);font-weight:700}
-:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:4px}
-.grad{background:linear-gradient(94deg,var(--fg) 0%,var(--ice-2) 50%,var(--signal-2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hl{color:var(--signal)}
-.panel{position:relative;background:var(--glass);border:1px solid var(--line-2);border-radius:12px;backdrop-filter:blur(10px);min-width:0}
-.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;border-color:var(--signal);border-style:solid;opacity:.85}
-.panel::before{top:-1px;left:-1px;border-width:1.5px 0 0 1.5px;border-radius:12px 0 0 0}
-.panel::after{bottom:-1px;right:-1px;border-width:0 1.5px 1.5px 0;border-radius:0 0 12px 0}
-.panel.plain::before,.panel.plain::after{display:none}
-
-/* nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 74%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px}
-.brand{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:800;font-size:21px;letter-spacing:.07em}
-.nav-links{display:flex;gap:30px;font-size:14px;color:var(--fg-2);font-weight:500}
-.nav-links a{position:relative;padding-block:6px}
-.nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1.5px;background:var(--signal);transition:right .25s ease}
-.nav-links a:hover::after,.nav-links a.active::after{right:0}
-.nav-links a:hover,.nav-links a.active{color:var(--fg)}
-.nav-right{display:flex;align-items:center;gap:10px}
-.burger{display:none;width:42px;height:42px;border:1px solid var(--line-2);border-radius:8px;background:transparent;color:var(--fg);cursor:pointer;place-items:center}
-@media (max-width:900px){.nav-links{display:none}.burger{display:grid}.nav .btn{display:none}}
-.sheet{display:none;position:fixed;inset:0;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(20px);padding:calc(24px + env(safe-area-inset-top,0px)) 24px 32px}
-.sheet.open{display:flex;flex-direction:column}
-.sheet .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
-.sheet nav{display:grid;gap:4px}
-.sheet nav a{font-family:var(--font-display);font-size:28px;font-weight:600;padding:12px 0;border-bottom:1px solid var(--line)}
-.sheet .btn{margin-top:auto;justify-content:center}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:8px;font-weight:600;font-size:14.5px;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease,background .2s ease,border-color .2s ease}
-.btn:hover{transform:translateY(-1px)}
-.btn-primary{background:var(--signal);color:var(--signal-ink)}
-.btn-primary:hover{background:var(--signal-2);box-shadow:0 10px 32px -10px rgba(255,138,61,.7)}
-.btn-ghost{border-color:var(--line-2);color:var(--fg);background:rgba(255,255,255,.02)}
-.btn-ghost:hover{border-color:var(--ice);box-shadow:0 0 26px -12px var(--ice)}
-.btn-sm{padding:9px 15px;font-size:13px}
-
-/* side index */
-.index{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:25;display:grid;gap:14px}
-.index a{width:8px;height:8px;border-radius:50%;border:1px solid var(--fg-3);display:block;position:relative;transition:all .2s}
-.index a.active{background:var(--signal);border-color:var(--signal);box-shadow:0 0 14px var(--signal)}
-.index a span{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);white-space:nowrap;opacity:0;transition:opacity .2s}
-.index a:hover span,.index a.active span{opacity:1}
-@media (max-width:1100px){.index{display:none}}
-
-/* hero */
-.hero{padding-block:clamp(72px,9vw,128px) clamp(56px,7vw,96px);overflow:hidden}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-.hero .glow{position:absolute;z-index:0;pointer-events:none;border-radius:50%;filter:blur(100px);opacity:.5}
-.hero .glow.a{width:640px;height:640px;background:radial-gradient(circle,rgba(255,138,61,.32),transparent 65%);top:-240px;right:-160px}
-.hero .glow.b{width:600px;height:600px;background:radial-gradient(circle,rgba(143,216,255,.26),transparent 65%);bottom:-280px;left:-180px}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(36px,5vw,80px);align-items:center}
-@media (max-width:960px){.hero .wrap{grid-template-columns:1fr}}
-.hero h1{font-size:clamp(46px,7.4vw,100px);font-weight:800;margin-top:24px;letter-spacing:-.038em}
-.hero .lede{margin-top:26px;min-height:3.3em}
-.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
-.persona{margin-top:44px;display:grid;gap:10px}
-.persona .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-3)}
-.seg{display:flex;flex-wrap:wrap;gap:6px}
-.seg button{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;color:var(--fg-2);border:1px solid var(--line-2);background:rgba(255,255,255,.02);padding:8px 13px;border-radius:999px;cursor:pointer;transition:all .2s}
-.seg button[aria-pressed="true"]{color:var(--signal-ink);background:var(--signal);border-color:var(--signal)}
-.seg button:hover:not([aria-pressed="true"]){border-color:var(--ice);color:var(--fg)}
-
-/* terminal */
-.term{font-family:var(--font-mono);font-size:12.5px;line-height:1.75;box-shadow:0 50px 100px -40px rgba(0,0,0,.85)}
-.term-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--fg-3);font-size:11px;letter-spacing:.08em;flex-wrap:wrap}
-.term-bar .lights{display:flex;gap:6px}
-.term-bar .lights i{width:9px;height:9px;border-radius:50%;background:var(--line-2);display:block}
-.term-bar .lights i:first-child{background:var(--signal)}
-.live{display:inline-flex;align-items:center;gap:8px;color:var(--ok)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,155,.55)}70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
-.term-body{padding:14px 16px 10px;overflow-x:auto;min-height:290px}
-.term-body ol{list-style:none;margin:0;padding:0;display:grid;gap:5px;min-width:330px}
-.term-body li{display:grid;grid-template-columns:58px 80px 1fr;gap:12px;align-items:baseline;animation:rowin .35s ease both}
-@keyframes rowin{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
-.t{color:var(--fg-3)}
-.k{color:var(--ice);font-weight:500}
-.k.act{color:var(--signal)}
-.k.ok{color:var(--ok)}
-.v{color:var(--fg-2);white-space:nowrap}
-.v b{color:var(--fg);font-weight:500}
-.cursor{display:inline-block;width:7px;height:13px;background:var(--signal);vertical-align:-2px;margin-left:4px;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.term-foot{border-top:1px solid var(--line);padding:10px 16px;display:flex;justify-content:space-between;gap:12px;color:var(--fg-3);font-size:11px;flex-wrap:wrap;letter-spacing:.04em}
-
-/* logos strip */
-.strip{border-block:1px solid var(--line);background:var(--bg-2);padding-block:22px}
-.strip .wrap{display:flex;align-items:center;gap:26px 40px;flex-wrap:wrap;justify-content:space-between;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
-.strip .wrap > span:first-child{color:var(--fg-2)}
-.strip .logos{display:flex;gap:28px;flex-wrap:wrap}
-.strip .logos span::before{content:"◇";color:var(--signal);margin-right:10px;font-size:9px}
-
-/* why */
-.why{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(36px,6vw,90px);align-items:start}
-@media (max-width:900px){.why{grid-template-columns:1fr}}
-.note{padding:34px;font-size:17px;line-height:1.75;color:var(--fg-2)}
-.note p + p{margin-top:16px}
-.note .sig{margin-top:24px;font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);display:flex;align-items:center;gap:12px}
-.note .sig::before{content:"";width:28px;height:1px;background:var(--signal)}
-.pillars{display:grid;gap:0;border-top:1px solid var(--line)}
-.pillar{display:grid;grid-template-columns:44px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--line)}
-.pillar .n{font-family:var(--font-mono);font-size:11px;color:var(--signal);padding-top:7px;letter-spacing:.12em}
-.pillar h4{font-size:18px;font-weight:700;margin-bottom:4px}
-.pillar p{color:var(--fg-2);font-size:15px}
-
-/* loop */
-.loop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-@media (max-width:960px){.loop{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){.loop{grid-template-columns:1fr}}
-.loop .panel{padding:28px 26px 30px;transition:transform .25s ease,border-color .25s ease}
-.loop .panel:hover{transform:translateY(-4px);border-color:rgba(143,216,255,.45)}
-.loop .step{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);letter-spacing:.18em;display:flex;justify-content:space-between}
-.loop .step b{color:var(--signal);font-weight:500}
-.loop .glyph{width:46px;height:46px;color:var(--ice);margin:24px 0 18px}
-.loop h3{font-size:23px;font-weight:700;margin-bottom:10px}
-.loop p{color:var(--fg-2);font-size:14.5px}
-
-/* capability matrix */
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px}
-.tab{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-2);border:1px solid var(--line-2);background:transparent;padding:10px 15px;border-radius:8px;cursor:pointer;transition:all .2s ease}
-.tab[aria-selected="true"]{color:var(--signal-ink);background:var(--signal);border-color:var(--signal)}
-.tab:hover:not([aria-selected="true"]){border-color:var(--ice);color:var(--fg)}
-.matrix{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:960px){.matrix{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.matrix{grid-template-columns:1fr}}
-.cap{padding:24px 24px 26px;display:grid;gap:10px;align-content:start;transition:transform .25s ease,border-color .25s ease;overflow:hidden}
-.cap:hover{transform:translateY(-4px);border-color:rgba(143,216,255,.45)}
-.cap .spot{position:absolute;inset:0;pointer-events:none;background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(143,216,255,.11),transparent 60%);opacity:0;transition:opacity .25s}
-.cap:hover .spot{opacity:1}
-.cap .code{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;color:var(--fg-3);display:flex;justify-content:space-between;align-items:center}
-.cap .code em{font-style:normal;padding:2px 8px;border-radius:999px;border:1px solid var(--line-2);font-size:10px}
-.cap .code em.now{color:var(--ok);border-color:rgba(74,222,155,.5)}
-.cap .code em.pilot{color:var(--ice);border-color:rgba(143,216,255,.5)}
-.cap .code em.soon{color:var(--signal);border-color:rgba(255,138,61,.5)}
-.cap h3{font-size:19.5px;font-weight:700}
-.cap p{color:var(--fg-2);font-size:14.2px}
-.cap ul{margin:2px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:12.5px;color:var(--fg-3);font-family:var(--font-mono)}
-.cap ul li::before{content:"›";color:var(--signal);margin-right:8px}
-.pane[hidden]{display:none}
-
-/* calculator */
-.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
-@media (max-width:900px){.calc{grid-template-columns:1fr}}
-.calc form{padding:28px;display:grid;gap:18px}
-.range label{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3);margin-bottom:10px}
-.range label output{color:var(--fg);font-size:14px;letter-spacing:0;font-variant-numeric:tabular-nums}
-input[type=range]{width:100%;accent-color:var(--signal);height:28px}
-.results{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media (max-width:480px){.results{grid-template-columns:1fr}}
-.res{padding:24px;display:grid;gap:6px}
-.res .big{font-family:var(--font-display);font-size:clamp(28px,3.4vw,42px);font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.res .big.ice{color:var(--ice)}
-.res .big.sig{color:var(--signal)}
-.res .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
-.res.wide{grid-column:1/-1}
-.bar{height:10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin-top:8px}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--signal),var(--ice));width:0;transition:width .6s cubic-bezier(.2,.7,.2,1)}
-.assume{font-size:12.5px;color:var(--fg-3);margin-top:4px}
-
-/* architecture */
-.arch{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,72px);align-items:center}
-@media (max-width:960px){.arch{grid-template-columns:1fr}}
-.arch svg{width:100%;height:auto;display:block}
-@keyframes flow{to{stroke-dashoffset:-40}}
-.flow{stroke-dasharray:4 6;animation:flow 1.6s linear infinite}
-
-/* path */
-.path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
-@media (max-width:900px){.path{grid-template-columns:1fr}}
-.path .panel{padding:28px}
-.path .n{font-family:var(--font-display);font-size:44px;font-weight:800;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px var(--fg-3);line-height:1}
-.path .when{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);margin-top:14px}
-.path h3{font-size:23px;font-weight:700;margin:8px 0 10px}
-.path p{color:var(--fg-2);font-size:14.5px}
-.path ul{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:13.5px;color:var(--fg-2)}
-.path ul li::before{content:"✓";color:var(--ok);margin-right:10px;font-family:var(--font-mono)}
-
-/* use cases */
-.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:960px){.cases{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.cases{grid-template-columns:1fr}}
-.case{padding:24px;display:grid;gap:8px;align-content:start;transition:border-color .25s,transform .25s}
-.case:hover{transform:translateY(-3px)}
-.case.featured{border-color:rgba(255,138,61,.55);box-shadow:0 0 0 1px rgba(255,138,61,.2) inset}
-.case .dom{font-family:var(--font-mono);font-size:11px;color:var(--ice);letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between}
-.case.featured .dom::after{content:"for you";color:var(--signal)}
-.case h3{font-size:18.5px;font-weight:700}
-.case p{color:var(--fg-2);font-size:14.2px}
-
-/* claude */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,80px);align-items:start}
-@media (max-width:900px){.split{grid-template-columns:1fr}}
-.stack{font-family:var(--font-mono);font-size:12.5px;overflow:hidden}
-.stack .row{display:grid;grid-template-columns:140px 1fr;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);align-items:center}
-.stack .row:last-child{border-bottom:0}
-.stack .row.on{background:linear-gradient(90deg,rgba(255,138,61,.14),transparent)}
-.stack .lbl{color:var(--fg-3);letter-spacing:.12em;font-size:10.5px;text-transform:uppercase}
-.stack .val{color:var(--fg);min-width:0}
-.stack .val span{color:var(--fg-3)}
-@media (max-width:480px){.stack .row{grid-template-columns:1fr;gap:4px}}
-
-/* roadmap */
-.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
-@media (max-width:900px){.road{grid-template-columns:1fr}}
-.road::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,var(--signal),var(--ice),transparent)}
-@media (max-width:900px){.road::before{display:none}}
-.phase{padding:30px 0 0;position:relative;min-width:0}
-.phase::before{content:"";position:absolute;top:-5px;left:0;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--fg-3)}
-.phase.now::before{background:var(--signal);border-color:var(--signal);box-shadow:0 0 18px var(--signal)}
-.phase .when{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;color:var(--fg-3);text-transform:uppercase}
-.phase.now .when{color:var(--signal)}
-.phase h3{font-size:25px;font-weight:700;margin:10px 0}
-.phase p{color:var(--fg-2);font-size:14.5px}
-.phase ul{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:13.5px;color:var(--fg-2);font-family:var(--font-mono)}
-.phase ul li::before{content:"—";color:var(--fg-3);margin-right:10px}
-
-/* trust + faq */
-.trust{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-@media (max-width:900px){.trust{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){.trust{grid-template-columns:1fr}}
-.trust .panel{padding:24px}
-.trust h4{font-size:17px;font-weight:700;margin-bottom:8px}
-.trust p{color:var(--fg-2);font-size:14.2px}
-.faq{display:grid;gap:0;border-top:1px solid var(--line);max-width:860px}
-details{border-bottom:1px solid var(--line)}
-summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-family:var(--font-display);font-size:18px;font-weight:600}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:var(--font-mono);color:var(--signal);font-size:22px;transition:transform .25s}
-details[open] summary::after{transform:rotate(45deg)}
-details p{color:var(--fg-2);padding-bottom:22px;max-width:70ch;font-size:15px}
-
-/* access */
-.access{background:linear-gradient(180deg,transparent,rgba(255,138,61,.05) 40%,transparent)}
-.access .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,80px);align-items:start}
-@media (max-width:900px){.access .wrap{grid-template-columns:1fr}}
-.access h2{font-size:clamp(32px,4.4vw,56px);font-weight:700}
-.access .lede{margin-top:18px}
-form.lead{display:grid;gap:14px;padding:28px}
-.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media (max-width:520px){.f2{grid-template-columns:1fr}}
-.lead label{display:grid;gap:6px;font-size:11px;color:var(--fg-3);font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase}
-input[type=text],input[type=email],select,textarea{font:inherit;font-family:var(--font-body);font-size:15px;color:var(--fg);background:var(--bg);border:1px solid var(--line-2);border-radius:8px;padding:12px 13px;width:100%;min-width:0}
-textarea{resize:vertical;min-height:90px}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--signal);outline-offset:0;border-color:transparent}
-.fine{font-size:12.5px;color:var(--fg-3)}
-.sent{display:none;background:rgba(74,222,155,.1);border:1px solid rgba(74,222,155,.45);border-radius:10px;padding:20px;color:var(--fg)}
-.contact{margin-top:30px;display:grid;gap:10px;font-family:var(--font-mono);font-size:13px;color:var(--fg-2)}
-.contact .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.contact .row > span:first-child{color:var(--fg-3);font-size:11px;letter-spacing:.12em;text-transform:uppercase;min-width:70px}
-.contact code{background:var(--bg-2);border:1px solid var(--line);padding:5px 10px;border-radius:6px;color:var(--fg);user-select:all}
-.gets{margin-top:30px;display:grid;gap:10px}
-.gets div{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--fg-2)}
-.gets div::before{content:"✓";color:var(--ok);font-family:var(--font-mono);margin-top:2px}
-
-footer{border-top:1px solid var(--line);padding-block:38px;color:var(--fg-3);font-size:12.5px;position:relative;z-index:1;font-family:var(--font-mono)}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
-footer .brand{font-size:16px}
-.totop{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:25;width:42px;height:42px;border-radius:50%;border:1px solid var(--line-2);background:var(--glass);color:var(--fg);display:grid;place-items:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s}
-.totop.show{opacity:1;pointer-events:auto}
-
-.reveal{opacity:1;transform:none}
-@media (prefers-reduced-motion:no-preference){
-  .reveal{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
-  @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-  .hero .reveal:nth-child(2){animation-delay:.15s}
-}
-@media (prefers-reduced-motion:reduce){.dot,.cursor,.flow,.term-body li{animation:none}.btn:hover,.cap:hover,.case:hover,.loop .panel:hover{transform:none}html{scroll-behavior:auto}}
-</style>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Volens">
+<meta property="og:url" content="https://volens.tech/">
+<meta property="og:title" content="Volens | Autonomous agents for enterprise operations">
+<meta property="og:description" content="AI agents that read, reason, act and prove. Agentic automation for the enterprise, built on Claude.">
+<meta property="og:image" content="https://volens.tech/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Volens. Systems with intent.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Volens | Autonomous agents for enterprise operations">
+<meta name="twitter:description" content="AI agents that read, reason, act and prove. Agentic automation for the enterprise, built on Claude.">
+<meta name="twitter:image" content="https://volens.tech/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Volens","url":"https://volens.tech/","logo":"https://volens.tech/logo-512.png","email":"hello@volens.tech","foundingDate":"2026","description":"Volens builds autonomous AI agents for enterprise operations: intelligent document processing, agentic workflow automation, multi-agent orchestration and AI infrastructure.","address":{"@type":"PostalAddress","addressLocality":"Pune","addressRegion":"Maharashtra","addressCountry":"IN"},"sameAs":["https://github.com/bkarlekar/volens-tech"]}
+</script>
 </head>
 <body>
-<header class="nav">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="Volens home">
-      <svg viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true"><path d="M4 7 L16 27 L28 7" stroke="var(--signal)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16" cy="9" r="2.6" fill="var(--ice)"/></svg>
-      VOLENS
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="Volens home">
+      <svg class="mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false"><path d="M4 7 L16 27 L28 7" stroke="#FF8A3D" stroke-width="3.2" fill="none" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16" cy="9" r="2.6" fill="#8FD8FF"/></svg>
+      <span class="wordmark">VOLENS</span>
     </a>
-    <nav class="nav-links" aria-label="Sections">
-      <a href="#why" data-sec="why">Why Volens</a>
-      <a href="#how" data-sec="how">How it works</a>
-      <a href="#capabilities" data-sec="capabilities">Capabilities</a>
-      <a href="#impact" data-sec="impact">Impact</a>
-      <a href="#claude" data-sec="claude">Built on Claude</a>
-      <a href="#path" data-sec="path">Working with us</a>
+    <nav class="primary" id="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#why">Why Volens</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a class="btn btn-primary nav-cta" href="#contact" data-track="cta_header">Book a discovery call</a>
     </nav>
-    <div class="nav-right">
-      <a class="btn btn-primary btn-sm" href="#access">Request access</a>
-      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5h14M2 9h14M2 13h14"/></svg></button>
-    </div>
+    <button class="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu">
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true" focusable="false"><path class="i-open" d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="i-close" d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
   </div>
 </header>
-<div class="sheet" id="sheet" aria-hidden="true">
-  <div class="top"><span class="brand">VOLENS</span><button class="burger" id="close" aria-label="Close menu" style="display:grid"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3l12 12M15 3L3 15"/></svg></button></div>
-  <nav>
-    <a href="#why">Why Volens</a><a href="#how">How it works</a><a href="#capabilities">Capabilities</a><a href="#impact">Impact</a><a href="#claude">Built on Claude</a><a href="#path">Working with us</a><a href="#faq">FAQ</a>
-  </nav>
-  <a class="btn btn-primary" href="#access">Request early access</a>
-</div>
 
-<nav class="index" aria-label="Page index">
-  <a href="#top" data-sec="top"><span>Top</span></a>
-  <a href="#why" data-sec="why"><span>Why</span></a>
-  <a href="#how" data-sec="how"><span>How</span></a>
-  <a href="#capabilities" data-sec="capabilities"><span>Capabilities</span></a>
-  <a href="#impact" data-sec="impact"><span>Impact</span></a>
-  <a href="#arch" data-sec="arch"><span>Architecture</span></a>
-  <a href="#claude" data-sec="claude"><span>Claude</span></a>
-  <a href="#path" data-sec="path"><span>Path</span></a>
-  <a href="#access" data-sec="access"><span>Access</span></a>
-</nav>
+<main id="main" tabindex="-1">
 
-<section class="hero" id="top">
-  <canvas id="field" aria-hidden="true"></canvas>
-  <div class="glow a"></div><div class="glow b"></div>
-  <div class="wrap">
-    <div class="reveal">
-      <span class="eyebrow">Agentic AI · Automation · Applied ML</span>
-      <h1><span class="grad">Systems with intent.</span></h1>
-      <p class="lede" id="heroLede">Volens builds autonomous agents for enterprise operations. They read your documents, reason over your rules, act in your systems and prove every step.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#access">Become a design partner</a>
-        <a class="btn btn-ghost" href="#impact">Estimate your impact →</a>
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Agentic AI and intelligent automation</p>
+        <h1 id="hero-title">Automate the work your team should never have to do by hand</h1>
+        <p class="lede">Volens builds AI agents that read your documents, apply your business rules, act inside the systems you already run, and keep a record of every step. Start with one process. Expand when it pays.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg" href="#contact" data-track="cta_hero">Book a discovery call</a>
+          <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
+        </div>
+        <ul class="hero-points" aria-label="Key points">
+          <li>Replaces brittle, click-recording RPA</li>
+          <li>Humans approve the hard cases</li>
+          <li>Full audit trail on every run</li>
+        </ul>
       </div>
-      <div class="persona">
-        <div class="lbl">Tailor this page to your world</div>
-        <div class="seg" id="seg" role="group" aria-label="Choose your industry">
-          <button aria-pressed="true" data-p="finance">Finance &amp; shared services</button>
-          <button aria-pressed="false" data-p="insurance">Insurance</button>
-          <button aria-pressed="false" data-p="banking">Banking &amp; fintech</button>
-          <button aria-pressed="false" data-p="manufacturing">Manufacturing</button>
-          <button aria-pressed="false" data-p="it">IT &amp; technology</button>
+
+      <figure class="run" aria-labelledby="run-title">
+        <figcaption class="run-head">
+          <span id="run-title">Example run: supplier invoice, finance team</span>
+          <span class="tag">Illustrative example</span>
+        </figcaption>
+        <ol class="run-log">
+          <li><span class="t">00:00</span><span class="k">Read</span><span class="v">3-page scanned invoice, Hartmann GmbH, €48,120.00</span></li>
+          <li><span class="t">00:02</span><span class="k">Match</span><span class="v">Purchase order 4500217 found in SAP, 13 of 14 lines match</span></li>
+          <li><span class="t">00:02</span><span class="k">Reason</span><span class="v">Line 9 quantity is 20% over the order</span></li>
+          <li><span class="t">00:03</span><span class="k">Policy</span><span class="v">Variance above 5% needs an approver</span></li>
+          <li><span class="t">00:03</span><span class="k act">Act</span><span class="v">Approval card sent to the AP lead in Teams</span></li>
+          <li><span class="t">14:07</span><span class="k ok">Approved</span><span class="v">Partial approval, note recorded</span></li>
+          <li><span class="t">14:07</span><span class="k act">Act</span><span class="v">Posted to SAP, credit note requested from supplier</span></li>
+          <li><span class="t">14:08</span><span class="k ok">Sealed</span><span class="v">11 steps, 3 systems, 1 human decision logged</span></li>
+        </ol>
+        <p class="run-foot">Human time spent: about 40 seconds. Every step is replayable later.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Trust / facts strip -->
+  <section class="facts" aria-label="Company facts and integrations">
+    <div class="wrap facts-grid">
+      <div>
+        <h2 class="facts-title">Works with the systems you already run</h2>
+        <ul class="systems" aria-label="Supported systems">
+          <li>SAP</li><li>Salesforce</li><li>ServiceNow</li><li>Microsoft 365</li><li>Dynamics 365</li><li>Workday</li><li>Oracle</li><li>Any REST or OData API</li>
+        </ul>
+      </div>
+      <dl class="fact-list">
+        <div><dt>Reasoning</dt><dd>Built on Anthropic's Claude</dd></div>
+        <div><dt>Founded</dt><dd>2026, Pune, India</dd></div>
+        <div><dt>Deployment</dt><dd>Our cloud, your cloud, or your VPC</dd></div>
+        <div><dt>Data</dt><dd>Never used to train models</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Problem / solution -->
+  <section class="section" id="problem" aria-labelledby="problem-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The problem</p>
+        <h2 id="problem-title">Traditional automation breaks the moment reality changes</h2>
+        <p class="lede">Scripted bots and rule engines work until a scan is blurry, a supplier changes a template, or a screen moves. Then the exception queue grows and people go back to doing the work by hand.</p>
+      </div>
+      <div class="compare" role="list">
+        <div class="compare-row" role="listitem">
+          <div class="was"><h3>Today</h3><p>A bot replays recorded clicks and fails when the layout changes.</p></div>
+          <div class="now"><h3>With Volens</h3><p>An agent understands the goal and adapts to new documents and interfaces.</p></div>
+        </div>
+        <div class="compare-row" role="listitem">
+          <div class="was"><h3>Today</h3><p>Exceptions are dumped on a person with no context attached.</p></div>
+          <div class="now"><h3>With Volens</h3><p>The agent gathers the context, applies your policy, and asks only when it should.</p></div>
+        </div>
+        <div class="compare-row" role="listitem">
+          <div class="was"><h3>Today</h3><p>Nobody can explain what the automation did or why.</p></div>
+          <div class="now"><h3>With Volens</h3><p>Every step, decision and approval is sealed into a trace you can replay.</p></div>
+        </div>
+        <div class="compare-row" role="listitem">
+          <div class="was"><h3>Today</h3><p>Each new process needs a new project from scratch.</p></div>
+          <div class="now"><h3>With Volens</h3><p>Agents share one runtime, one set of connectors and one audit ledger, so the next process costs less.</p></div>
         </div>
       </div>
     </div>
-    <div class="reveal">
-      <div class="panel term" role="figure" aria-label="Example agent run">
-        <div class="term-bar">
-          <span class="lights"><i></i><i></i><i></i></span>
-          <span id="termTitle">volens-agent · ap-invoice · run #V-2048</span>
-          <span class="live"><span class="dot"></span>EXAMPLE</span>
+  </section>
+
+  <!-- How it works -->
+  <section class="section alt" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-title">Four steps, applied to any process</h2>
+        <p class="lede">The same loop runs an invoice, a claim, a service ticket or a maintenance alert. You decide where a person must approve.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span class="step-n" aria-hidden="true">1</span>
+          <h3>Read</h3>
+          <p>Documents, emails, screens and sensor data are extracted with confidence scores, including scans, handwriting and multiple languages.</p>
+        </li>
+        <li>
+          <span class="step-n" aria-hidden="true">2</span>
+          <h3>Reason</h3>
+          <p>The agent applies your policies, thresholds and approval rules. If a case is unclear, it routes it to a person instead of guessing.</p>
+        </li>
+        <li>
+          <span class="step-n" aria-hidden="true">3</span>
+          <h3>Act</h3>
+          <p>It posts, updates and notifies in SAP, Salesforce, ServiceNow and Microsoft 365 through validated connectors, with screen automation only as a fallback.</p>
+        </li>
+        <li>
+          <span class="step-n" aria-hidden="true">4</span>
+          <h3>Prove</h3>
+          <p>Inputs, outputs, actions and approvals are recorded in a replayable audit trail your finance and risk teams can inspect.</p>
+        </li>
+      </ol>
+      <div class="inline-cta">
+        <a class="btn btn-primary" href="#contact" data-track="cta_how">Discuss your first process</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section class="section" id="capabilities" aria-labelledby="cap-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Capabilities</p>
+        <h2 id="cap-title">From your first agent to a complete AI operating layer</h2>
+        <p class="lede">Products where the problem repeats, engineering where it doesn't. Everything runs on the same connectors and audit ledger.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <h3>Agentic AI</h3>
+          <p>Agents that own a business process end to end, with approval checkpoints you define.</p>
+          <ul>
+            <li>Volens Agent: goal-driven process agents</li>
+            <li>Multi-agent orchestration and hand-offs</li>
+            <li>Evaluation suites, guardrails and prompt-injection defence</li>
+            <li>Conversational, voice and computer-use agents</li>
+          </ul>
+          <a class="card-link" href="#contact" data-track="cap_agentic">Talk about agents<span aria-hidden="true"> →</span></a>
+        </article>
+        <article class="card">
+          <h3>Intelligent automation</h3>
+          <p>Document processing and workflow automation that survive messy inputs and changing systems.</p>
+          <ul>
+            <li>Volens Docs: invoices, contracts, claims and KYC packs</li>
+            <li>Volens Flow: deterministic steps with SLAs and retries</li>
+            <li>RPA modernisation from UiPath, Power Automate or Blue Prism</li>
+            <li>Process intelligence and human-in-the-loop console</li>
+          </ul>
+          <a class="card-link" href="#contact" data-track="cap_automation">Talk about automation<span aria-hidden="true"> →</span></a>
+        </article>
+        <article class="card">
+          <h3>Applied AI and machine learning</h3>
+          <p>The models and knowledge systems that make agents accurate on your data.</p>
+          <ul>
+            <li>Retrieval and enterprise knowledge with access control</li>
+            <li>Fine-tuning and small-model distillation</li>
+            <li>Forecasting, risk and anomaly models</li>
+            <li>Computer vision, MLOps and LLMOps</li>
+          </ul>
+          <a class="card-link" href="#contact" data-track="cap_ml">Talk about AI and ML<span aria-hidden="true"> →</span></a>
+        </article>
+        <article class="card">
+          <h3>AI infrastructure</h3>
+          <p>The plumbing that keeps agents governed, observable and affordable at scale.</p>
+          <ul>
+            <li>Model gateway with routing, caching and spend limits</li>
+            <li>Typed connectors built on the Model Context Protocol</li>
+            <li>Agent observability and replay, exportable to your SIEM</li>
+            <li>Deployment in our cloud, your cloud or your VPC</li>
+          </ul>
+          <a class="card-link" href="#contact" data-track="cap_infra">Talk about infrastructure<span aria-hidden="true"> →</span></a>
+        </article>
+        <article class="card">
+          <h3>Microsoft ecosystem</h3>
+          <p>Agents where your people already work, with your identity and governance intact.</p>
+          <ul>
+            <li>Copilot Studio agents and Microsoft 365 extensions</li>
+            <li>Azure AI Foundry integration with Entra ID</li>
+            <li>Teams approvals, Dynamics 365 and Power Platform modernisation</li>
+            <li>Microsoft Fabric reporting on agent activity</li>
+          </ul>
+          <a class="card-link" href="#contact" data-track="cap_microsoft">Talk about Microsoft<span aria-hidden="true"> →</span></a>
+        </article>
+        <article class="card">
+          <h3>Physical AI and emerging technology</h3>
+          <p>The same policy and audit model extended to machines and plant floors. Early-stage work with selected partners.</p>
+          <ul>
+            <li>Industrial IoT agents for predictive maintenance</li>
+            <li>Edge inference for vision and anomaly detection</li>
+            <li>Digital twins, simulation and robotics integration</li>
+            <li>Time-boxed emerging-technology experiments</li>
+          </ul>
+          <a class="card-link" href="#contact" data-track="cap_physical">Talk about physical AI<span aria-hidden="true"> →</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries (tabs) -->
+  <section class="section alt" id="industries" aria-labelledby="ind-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Industries</p>
+        <h2 id="ind-title">Where document-heavy, rule-bound work costs the most</h2>
+        <p class="lede">Choose your sector to see the processes we typically start with.</p>
+      </div>
+      <div class="tabs" data-tabs>
+        <div class="tablist" role="tablist" aria-label="Industry">
+          <button role="tab" id="tab-finance" aria-controls="panel-finance" aria-selected="true" tabindex="0">Finance and shared services</button>
+          <button role="tab" id="tab-insurance" aria-controls="panel-insurance" aria-selected="false" tabindex="-1">Insurance</button>
+          <button role="tab" id="tab-banking" aria-controls="panel-banking" aria-selected="false" tabindex="-1">Banking and fintech</button>
+          <button role="tab" id="tab-manufacturing" aria-controls="panel-manufacturing" aria-selected="false" tabindex="-1">Manufacturing</button>
+          <button role="tab" id="tab-it" aria-controls="panel-it" aria-selected="false" tabindex="-1">IT and technology</button>
         </div>
-        <div class="term-body"><ol id="termLog"></ol></div>
-        <div class="term-foot">
-          <span id="termMeta">model=claude · cache_hit=0.81 · tokens=41k</span>
-          <span id="termCost">cost €0.21 · human 40s</span>
+        <div class="panel" role="tabpanel" id="panel-finance" aria-labelledby="tab-finance" tabindex="0">
+          <h3>Close the loop on back-office work</h3>
+          <p>Agents match invoices to purchase orders, handle exceptions, chase suppliers and post results, so your team reviews decisions instead of retyping data.</p>
+          <ul class="usecases">
+            <li><strong>Accounts payable and receivable:</strong> three-way matching, dunning and vendor correspondence</li>
+            <li><strong>Contract and purchase-order intake:</strong> clause extraction and policy checks with deviations highlighted</li>
+            <li><strong>Employee onboarding:</strong> identity, access, payroll and equipment tasks tracked as one job</li>
+          </ul>
+        </div>
+        <div class="panel" role="tabpanel" id="panel-insurance" aria-labelledby="tab-insurance" tabindex="0" hidden>
+          <h3>From first notice of loss to a decision-ready file</h3>
+          <p>Agents read claim packs, verify cover against the policy, request missing evidence and prepare the adjuster's file so the human decision takes minutes.</p>
+          <ul class="usecases">
+            <li><strong>Claims intake:</strong> documents, photos and estimates extracted and checked</li>
+            <li><strong>Cover verification:</strong> policy terms, excess and exclusions applied automatically</li>
+            <li><strong>Surveyor routing:</strong> variance thresholds decide when a person reviews</li>
+          </ul>
+        </div>
+        <div class="panel" role="tabpanel" id="panel-banking" aria-labelledby="tab-banking" tabindex="0" hidden>
+          <h3>Onboarding and compliance without the backlog</h3>
+          <p>Agents assemble KYC evidence, screen against policy, resolve document gaps with the applicant and leave records your compliance team can replay.</p>
+          <ul class="usecases">
+            <li><strong>KYC and onboarding:</strong> identity, address and screening checks with evidence linked</li>
+            <li><strong>Regulatory evidence packs:</strong> audit-ready records assembled from source systems</li>
+            <li><strong>Service requests:</strong> standard changes resolved end to end</li>
+          </ul>
+        </div>
+        <div class="panel" role="tabpanel" id="panel-manufacturing" aria-labelledby="tab-manufacturing" tabindex="0" hidden>
+          <h3>Maintenance and quality, driven by data</h3>
+          <p>Agents watch plant telemetry, read inspection images and supplier documents, and raise and close work orders in SAP PM with a planner's approval.</p>
+          <ul class="usecases">
+            <li><strong>Predictive maintenance:</strong> anomalies turned into scheduled work orders</li>
+            <li><strong>Quality inspection:</strong> vision checks with human verification queues</li>
+            <li><strong>Supplier documentation:</strong> certificates and delivery notes checked on arrival</li>
+          </ul>
+        </div>
+        <div class="panel" role="tabpanel" id="panel-it" aria-labelledby="tab-it" tabindex="0" hidden>
+          <h3>A service desk that resolves instead of routes</h3>
+          <p>Agents triage tickets, diagnose from logs and permissions, fix what is pre-approved in ServiceNow and Microsoft 365, and escalate the rest with full context.</p>
+          <ul class="usecases">
+            <li><strong>Access and permissions:</strong> standard changes applied and verified</li>
+            <li><strong>Incident triage:</strong> similar incidents and root causes surfaced automatically</li>
+            <li><strong>Knowledge:</strong> answers grounded in your runbooks with citations</li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="strip">
-  <div class="wrap">
-    <span>Works with the systems you already run</span>
-    <div class="logos"><span>SAP S/4HANA</span><span>Salesforce</span><span>ServiceNow</span><span>Microsoft 365</span><span>Copilot Studio</span><span>Dynamics 365</span><span>Workday</span><span>Oracle</span></div>
-  </div>
-</div>
+  <!-- Why Volens -->
+  <section class="section" id="why" aria-labelledby="why-title">
+    <div class="wrap why-grid">
+      <div>
+        <p class="eyebrow">Why Volens</p>
+        <h2 id="why-title">Built by people who ran enterprise automation before the machines could think</h2>
+        <p class="lede">Our founding team spent years delivering RPA estates, intelligent document pipelines and early Copilot and AI-agent deployments inside large organisations. Volens is the company we wished we could have bought.</p>
+        <blockquote class="note">
+          <p>Automation only pays when it survives contact with messy reality. And enterprises will only trust autonomy they can inspect. We built Volens around both.</p>
+          <footer>The founding team, Volens</footer>
+        </blockquote>
+      </div>
+      <ul class="diffs">
+        <li><h3>Operators, not tourists</h3><p>We have owned automation centres of excellence, SLAs and audit findings. We design for the people who run this at 2 a.m.</p></li>
+        <li><h3>Judgement, not scripts</h3><p>Agents reason over your policies and escalate when unsure, instead of replaying clicks until something breaks.</p></li>
+        <li><h3>Proof, not promises</h3><p>A sealed, replayable record for every run, so your auditors and your CFO see the same picture.</p></li>
+        <li><h3>Built to outlast the model</h3><p>Frontier models change every quarter. Our runtime, connectors and audit layer stay, so your investment compounds.</p></li>
+        <li><h3>India depth, global reach</h3><p>Engineering in Pune, serving India, the EU, the UK and North America, with data residency where you need it.</p></li>
+      </ul>
+    </div>
+  </section>
 
-<section id="why">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Why Volens</span>
-      <h2>We spent a decade automating the enterprise the hard way. Now the machines can think.</h2>
-    </div>
-    <div class="why">
-      <div class="panel note">
-        <p>Volens was founded by people who built and ran enterprise automation for years: RPA estates with hundreds of bots, intelligent document pipelines, and the first generation of Copilot and AI-agent deployments inside large organisations.</p>
-        <p>We learned two things. First, automation only pays when it survives contact with messy reality: the scanned invoice, the exception nobody documented, the system that changed overnight. Second, enterprises will only trust autonomy they can inspect.</p>
-        <p>So we are building the company we wished we could have bought: agents with real judgement, wired into the systems you already run, with every decision on the record. Founded in Pune, built for the world.</p>
-        <div class="sig">The founding team, Volens</div>
+  <!-- Impact estimate -->
+  <section class="section alt" id="impact" aria-labelledby="impact-title">
+    <div class="wrap calc-grid">
+      <div>
+        <p class="eyebrow">Impact estimate</p>
+        <h2 id="impact-title">See what one process could be worth</h2>
+        <p class="lede">Adjust the figures to match your process. This is a planning estimate with stated assumptions. A pilot replaces it with measured results from your own runs.</p>
+        <form class="calc" id="calc" aria-describedby="calc-assume">
+          <div class="range">
+            <label for="vol">Items per month <output id="vol-out" for="vol">8,000</output></label>
+            <input type="range" id="vol" min="500" max="100000" step="500" value="8000">
+          </div>
+          <div class="range">
+            <label for="mins">Handling minutes per item today <output id="mins-out" for="mins">12</output></label>
+            <input type="range" id="mins" min="2" max="60" step="1" value="12">
+          </div>
+          <div class="range">
+            <label for="rate">Fully loaded cost per hour (INR) <output id="rate-out" for="rate">₹1,400</output></label>
+            <input type="range" id="rate" min="300" max="6000" step="100" value="1400">
+          </div>
+          <div class="range">
+            <label for="auto">Share handled without a person <output id="auto-out" for="auto">75%</output></label>
+            <input type="range" id="auto" min="40" max="95" step="5" value="75">
+          </div>
+          <p class="fine" id="calc-assume">Assumes handling time drops to zero for items completed without a person and by 60% for items routed to a person. Shown in INR; the ratio holds in any currency.</p>
+        </form>
       </div>
-      <div class="pillars">
-        <div class="pillar"><div class="n">01</div><div><h4>Operators, not tourists</h4><p>We have owned automation CoEs, SLAs and audit findings. We design for the people who will run this at 2 a.m.</p></div></div>
-        <div class="pillar"><div class="n">02</div><div><h4>Judgement, not scripts</h4><p>Agents reason over your policies and escalate when unsure. The brittle click-recording era is over.</p></div></div>
-        <div class="pillar"><div class="n">03</div><div><h4>Proof, not promises</h4><p>A sealed, replayable ledger for every run. Your auditors and your CFO see the same picture.</p></div></div>
-        <div class="pillar"><div class="n">04</div><div><h4>Built to outlast the model</h4><p>Frontier models change every quarter. Our runtime, connectors and audit layer stay. Your investment compounds.</p></div></div>
-        <div class="pillar"><div class="n">05</div><div><h4>India depth, global reach</h4><p>Engineering in Pune, customers across India, the EU, the UK and North America, data residency where you need it.</p></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="how">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">How it works</span>
-      <h2>One control loop, applied to every process you would rather not run by hand.</h2>
-      <p class="lede">A Volens agent understands the job: the document it has never seen, the exception the rulebook forgot, the API that changed last Tuesday.</p>
-    </div>
-    <div class="loop">
-      <div class="panel">
-        <div class="step"><span>PERCEIVE</span><b>L1</b></div>
-        <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="7" y="5" width="22" height="30" rx="2"/><path d="M12 13h12M12 19h12M12 25h8"/><circle cx="29" cy="29" r="6" fill="var(--bg-2)"/><path d="M33.5 33.5 37 37"/></svg>
-        <h3>Read</h3>
-        <p>Documents, emails, screens, voice, sensor streams. Vision-language extraction with field-level confidence, in 30+ languages.</p>
-      </div>
-      <div class="panel">
-        <div class="step"><span>DECIDE</span><b>L2</b></div>
-        <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 5v8M20 27v8M5 20h8M27 20h8"/><circle cx="20" cy="20" r="7"/><circle cx="20" cy="20" r="2" fill="currentColor"/></svg>
-        <h3>Reason</h3>
-        <p>Claude plans against your policies, thresholds and approval matrices, backed by retrieval over your knowledge and ML signals from your data.</p>
-      </div>
-      <div class="panel">
-        <div class="step"><span>EXECUTE</span><b>L3</b></div>
-        <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 20h20"/><path d="M19 12l8 8-8 8"/><rect x="29" y="8" width="6" height="24" rx="1.5"/></svg>
-        <h3>Act</h3>
-        <p>Typed tool calls into SAP, Salesforce, ServiceNow and Microsoft Graph, validated before write. UI automation only as a fallback.</p>
-      </div>
-      <div class="panel">
-        <div class="step"><span>PROVE</span><b>L4</b></div>
-        <svg class="glyph" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 4l13 5v10c0 8-5.5 14-13 17C12.5 33 7 27 7 19V9z"/><path d="M14 20l4 4 8-9"/></svg>
-        <h3>Audit</h3>
-        <p>Inputs, prompts, outputs, tool calls and human decisions sealed into one replayable trace. Nothing happens off the record.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="capabilities">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Capabilities</span>
-      <h2>From your first agent to the whole intelligence layer.</h2>
-      <p class="lede">Products where the problem is repeatable, engineering where it is not. Everything shares one runtime, one connector fabric and one audit ledger.</p>
-    </div>
-    <div class="tabs" role="tablist" aria-label="Capability areas">
-      <button class="tab" role="tab" aria-selected="true" aria-controls="p-agentic" id="t-agentic">Agentic AI</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-auto" id="t-auto">Intelligent automation</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-ml" id="t-ml">Applied AI &amp; ML</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-infra" id="t-infra">AI infrastructure</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-ms" id="t-ms">Microsoft ecosystem</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="p-edge" id="t-edge">Physical AI</button>
-    </div>
-
-    <div class="pane" id="p-agentic" role="tabpanel" aria-labelledby="t-agentic">
-      <div class="matrix">
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-AGT-01 <em class="now">Available</em></div><h3>Volens Agent</h3><p>Goal-driven agents that own a business process end to end with approval checkpoints you define.</p><ul><li>Policy-aware planning</li><li>Typed tool use, validated writes</li><li>Escalates instead of guessing</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-AGT-02 <em class="pilot">Pilot</em></div><h3>Multi-agent orchestration</h3><p>Specialist agents coordinated on one problem: planner, researcher, executor, reviewer, with shared memory and budgets.</p><ul><li>Delegation and hand-off protocols</li><li>Cost and latency budgets</li><li>Deadlock and loop detection</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-AGT-03 <em class="now">Available</em></div><h3>Agent evaluation &amp; guardrails</h3><p>Scenario suites replayed from real traces, policy guardrails, red-team harnesses and regression gates before any agent ships.</p><ul><li>Trace-derived test sets</li><li>Prompt-injection defence</li><li>Pass/fail gates in CI</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-AGT-04 <em class="pilot">Pilot</em></div><h3>Conversational &amp; voice agents</h3><p>Agents that talk to customers and employees in chat, Teams and on the phone, and then do the work, not just answer.</p><ul><li>Streaming voice with barge-in</li><li>Identity-aware actions</li><li>Hand-off to humans with context</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-AGT-05 <em class="now">Available</em></div><h3>Computer-use agents</h3><p>For systems without APIs: agents that operate legacy desktop and web UIs by sight, under the same policies and ledger.</p><ul><li>Vision-driven UI control</li><li>Sandboxed sessions</li><li>Step-level approval</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-AGT-06 <em class="now">Available</em></div><h3>Agent engineering services</h3><p>Our engineers embedded with your team to design, build and harden your first production agents, then hand over.</p><ul><li>Use-case discovery and ROI model</li><li>Build, evaluate, deploy</li><li>Enablement and runbooks</li></ul></article>
-      </div>
-    </div>
-    <div class="pane" id="p-auto" role="tabpanel" aria-labelledby="t-auto" hidden>
-      <div class="matrix">
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-IDP-01 <em class="now">Available</em></div><h3>Volens Docs</h3><p>Intelligent document processing that understands business meaning, not just layout. Invoices, contracts, claims, KYC packs.</p><ul><li>Vision-language extraction</li><li>Confidence and review queues</li><li>Scan, handwriting, multilingual</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-FLW-01 <em class="pilot">Pilot</em></div><h3>Volens Flow</h3><p>Deterministic workflow engine for the steps that must never improvise, wired to agents for the steps that must.</p><ul><li>Retries, SLAs, back-pressure</li><li>Native and UI connectors</li><li>Versioned, reviewable flows</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-RPA-01 <em class="now">Available</em></div><h3>RPA modernisation</h3><p>Migrate brittle UiPath, Power Automate and Blue Prism estates to agent-first automation, bot by bot, with no big-bang cutover.</p><ul><li>Bot inventory and triage</li><li>Side-by-side shadow runs</li><li>Decommission with evidence</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-PRM-01 <em class="now">Available</em></div><h3>Process intelligence</h3><p>Mine event logs and traces to find where agents pay back first, then measure the gain after they are live.</p><ul><li>Process and task mining</li><li>Automation ROI scoring</li><li>Continuous benchmark</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-COE-01 <em class="now">Available</em></div><h3>Automation CoE design</h3><p>Operating model, governance, intake and chargeback for an enterprise that runs on agents instead of tickets.</p><ul><li>Governance and risk framework</li><li>Intake and prioritisation</li><li>Skills and enablement plan</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-HIL-01 <em class="now">Available</em></div><h3>Human-in-the-loop console</h3><p>One queue for every decision an agent could not take alone, with the full context pack and one-click resolution.</p><ul><li>Approval matrices</li><li>Four-eyes and delegation</li><li>Feedback loops into evals</li></ul></article>
-      </div>
-    </div>
-    <div class="pane" id="p-ml" role="tabpanel" aria-labelledby="t-ml" hidden>
-      <div class="matrix">
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-ML-01 <em class="now">Available</em></div><h3>RAG &amp; enterprise knowledge</h3><p>Grounded answers and agent memory over contracts, SOPs, tickets and data warehouses, with citations and access control.</p><ul><li>Hybrid retrieval, rerankers</li><li>Document-level ACLs</li><li>Freshness and drift monitoring</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-ML-02 <em class="now">Available</em></div><h3>Fine-tuning &amp; distillation</h3><p>Domain-adapted and small models where latency, cost or data residency demand it, distilled from frontier-model traces.</p><ul><li>SFT, DPO, LoRA pipelines</li><li>Eval-gated releases</li><li>On-prem and VPC serving</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-ML-03 <em class="now">Available</em></div><h3>Predictive ML &amp; forecasting</h3><p>Classical ML where it beats a language model: demand, churn, cash, risk and anomaly models that feed agent decisions.</p><ul><li>Gradient boosting, time series</li><li>Feature stores</li><li>Explainability by design</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-ML-04 <em class="pilot">Pilot</em></div><h3>Computer vision</h3><p>Inspection, counting, reading and safety monitoring from cameras and drones, wired into the same agent loop.</p><ul><li>Detection, OCR, segmentation</li><li>Edge deployment</li><li>Human verification queues</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-ML-05 <em class="now">Available</em></div><h3>MLOps &amp; LLMOps</h3><p>Pipelines, registries, evaluation, monitoring and rollback for models and prompts, treated as one lifecycle.</p><ul><li>Prompt and model versioning</li><li>Online evals and drift alerts</li><li>Cost observability</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-ML-06 <em class="now">Available</em></div><h3>AI strategy &amp; data readiness</h3><p>Where AI pays, what data it needs, and the sequencing that gets you there. Two to six weeks, ending in a funded plan.</p><ul><li>Opportunity map and ROI</li><li>Data and platform audit</li><li>Responsible-AI framework</li></ul></article>
-      </div>
-    </div>
-    <div class="pane" id="p-infra" role="tabpanel" aria-labelledby="t-infra" hidden>
-      <div class="matrix">
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-CORE-01 <em class="soon">2027</em></div><h3>Volens Core</h3><p>The orchestration runtime: agent lifecycle, memory, delegation, budgets and the audit ledger, exposed through an SDK.</p><ul><li>Python and TypeScript SDK</li><li>Durable execution</li><li>Multi-tenant isolation</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-GW-01 <em class="now">Available</em></div><h3>Model gateway &amp; routing</h3><p>One endpoint for Claude and other models with routing, caching, rate limits, PII redaction and cost attribution per team.</p><ul><li>Prompt caching and batching</li><li>Fallback and A/B routing</li><li>Spend guardrails</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MCP-01 <em class="now">Available</em></div><h3>Connector fabric (MCP)</h3><p>Typed, permissioned tools for enterprise systems built on the Model Context Protocol, reusable across every agent.</p><ul><li>SAP, Salesforce, ServiceNow, M365</li><li>Scoped credentials</li><li>Schema validation on write</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-OBS-01 <em class="now">Available</em></div><h3>Agent observability</h3><p>Traces, spans, token and cost telemetry, decision diffs and replay for every run, exportable to your SIEM.</p><ul><li>OpenTelemetry native</li><li>Replay and diff</li><li>Alerting on behaviour drift</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-STU-01 <em class="soon">2027</em></div><h3>Volens Studio</h3><p>Where operations teams and engineers design, test and ship agents together, with evaluations built into the workflow.</p><ul><li>Scenario replay</li><li>Policy and guardrail editor</li><li>Review and release gates</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-DEP-01 <em class="now">Available</em></div><h3>Sovereign deployment</h3><p>Run in Volens Cloud, your AWS or Google Cloud account, or fully inside your VPC, with India and EU residency.</p><ul><li>Bedrock and Vertex AI</li><li>Customer-managed keys</li><li>Air-gapped option</li></ul></article>
-      </div>
-    </div>
-    <div class="pane" id="p-ms" role="tabpanel" aria-labelledby="t-ms" hidden>
-      <div class="matrix">
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MS-01 <em class="now">Available</em></div><h3>Copilot Studio agents</h3><p>Custom agents and declarative Copilot extensions grounded in your data and able to act, built for Microsoft 365 users.</p><ul><li>Graph connectors and plugins</li><li>Volens tools inside Copilot</li><li>Governance via Purview</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MS-02 <em class="now">Available</em></div><h3>Azure AI Foundry integration</h3><p>Volens agents running alongside Azure OpenAI and Claude on Azure, with your identity, networking and compliance intact.</p><ul><li>Entra ID and RBAC</li><li>Private endpoints</li><li>Unified logging</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MS-03 <em class="now">Available</em></div><h3>Power Platform modernisation</h3><p>Move Power Automate flows and canvas apps to agent-backed services where they have outgrown low-code.</p><ul><li>Flow inventory and triage</li><li>Dataverse integration</li><li>Co-existence patterns</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MS-04 <em class="now">Available</em></div><h3>Teams as the agent surface</h3><p>Approvals, exceptions and conversations with agents inside Teams, where your people already are.</p><ul><li>Adaptive Cards</li><li>Message extensions</li><li>Meeting and call bots</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MS-05 <em class="now">Available</em></div><h3>Dynamics 365 automation</h3><p>Agents for finance, supply chain and service modules, closing loops across Dynamics, SAP and the rest of the estate.</p><ul><li>Dual-write aware</li><li>Business Central support</li><li>Approvals in Teams</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MS-06 <em class="now">Available</em></div><h3>Fabric &amp; data integration</h3><p>Agent telemetry and process data landed in Microsoft Fabric for analytics, forecasting and executive reporting.</p><ul><li>OneLake pipelines</li><li>Power BI dashboards</li><li>Semantic models</li></ul></article>
-      </div>
-    </div>
-    <div class="pane" id="p-edge" role="tabpanel" aria-labelledby="t-edge" hidden>
-      <div class="matrix">
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MOT-01 <em class="soon">Research</em></div><h3>Volens Motion</h3><p>The intent, policy and audit layer extended to machines: warehouses, labs and plant floors where agents move things.</p><ul><li>Fleet tasking</li><li>Safety envelopes and override</li><li>Shared ledger with digital work</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MOT-02 <em class="pilot">Pilot</em></div><h3>Edge inference</h3><p>Distilled models running on-device for vision, speech and anomaly detection where the network cannot be trusted.</p><ul><li>NVIDIA Jetson, ARM</li><li>OTA model updates</li><li>Offline-first sync</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MOT-03 <em class="pilot">Pilot</em></div><h3>Industrial IoT agents</h3><p>Agents that watch telemetry, diagnose faults and raise or resolve work orders in SAP PM and ServiceNow.</p><ul><li>OPC UA, MQTT ingestion</li><li>Predictive maintenance</li><li>Work-order automation</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MOT-04 <em class="soon">Research</em></div><h3>Simulation &amp; digital twins</h3><p>Rehearse agent behaviour against a twin of the process or facility before anything touches production.</p><ul><li>Scenario generation</li><li>Policy stress tests</li><li>Sim-to-real evaluation</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-MOT-05 <em class="soon">Research</em></div><h3>Robotics integration</h3><p>ROS 2 and vendor-native integrations so cobots and AMRs become tools an agent can call, with human override always available.</p><ul><li>ROS 2 bridges</li><li>Vendor SDKs</li><li>Safety-rated stop paths</li></ul></article>
-        <article class="panel cap"><div class="spot"></div><div class="code">VOL-LAB-01 <em class="now">Available</em></div><h3>Emerging-tech lab</h3><p>Structured exploration of what is next, run as time-boxed experiments with a go/no-go at the end of each.</p><ul><li>Quarterly horizon scans</li><li>Proofs of concept in weeks</li><li>Findings you can act on</li></ul></article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="impact">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Impact estimate</span>
-      <h2>What one process is worth.</h2>
-      <p class="lede">Move the sliders to your numbers. This is a planning estimate using conservative assumptions; a design-partner pilot replaces it with measured results from your own traces.</p>
-    </div>
-    <div class="calc">
-      <form class="panel" id="calc" aria-label="Impact calculator">
-        <div class="range"><label for="vol">Items per month <output id="volOut">8,000</output></label><input type="range" id="vol" min="500" max="100000" step="500" value="8000"></div>
-        <div class="range"><label for="mins">Handling minutes per item today <output id="minsOut">12</output></label><input type="range" id="mins" min="2" max="60" step="1" value="12"></div>
-        <div class="range"><label for="rate">Fully loaded cost per hour <output id="rateOut">₹1,400</output></label><input type="range" id="rate" min="300" max="6000" step="100" value="1400"></div>
-        <div class="range"><label for="auto">Straight-through rate target <output id="autoOut">75%</output></label><input type="range" id="auto" min="40" max="95" step="5" value="75"></div>
-        <p class="assume">Assumes agents cut handling time to zero on straight-through items and by 60% on items routed to a human. Currency shown in INR; the ratio holds in any currency.</p>
-      </form>
-      <div class="results">
-        <div class="panel res"><div class="big ice" id="hours">—</div><div class="lbl">Hours returned per month</div></div>
-        <div class="panel res"><div class="big sig" id="money">—</div><div class="lbl">Monthly value, INR</div></div>
-        <div class="panel res wide"><div class="big" id="fte">—</div><div class="lbl">Full-time equivalents redeployed</div><div class="bar"><i id="bar"></i></div><p class="assume" id="annual">—</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="arch">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Architecture</span>
-      <h2>Reasoning in the middle. Discipline on every side.</h2>
-    </div>
-    <div class="arch">
-      <div class="pillars">
-        <div class="pillar"><div class="n">L0</div><div><h4>Surfaces</h4><p>Teams, Copilot, web console, APIs and voice. Where people and agents meet.</p></div></div>
-        <div class="pillar"><div class="n">L1</div><div><h4>Agents &amp; flows</h4><p>Volens Agent, Flow and Docs. Goal, plan, policy, checkpoints.</p></div></div>
-        <div class="pillar"><div class="n">L2</div><div><h4>Reasoning core</h4><p>Claude via the model gateway, with retrieval, ML signals and distilled models where they fit.</p></div></div>
-        <div class="pillar"><div class="n">L3</div><div><h4>Connector fabric</h4><p>Typed MCP tools for SAP, Salesforce, ServiceNow, Microsoft 365 and legacy UIs.</p></div></div>
-        <div class="pillar"><div class="n">L4</div><div><h4>Trust plane</h4><p>Audit ledger, approvals, identity, residency and observability underneath everything.</p></div></div>
-      </div>
-      <div class="panel" style="padding:18px">
-        <svg viewBox="0 0 640 420" role="img" aria-label="Volens architecture diagram">
-          <defs><linearGradient id="gcore" x1="0" x2="1"><stop offset="0" stop-color="#FF8A3D" stop-opacity=".35"/><stop offset="1" stop-color="#8FD8FF" stop-opacity=".35"/></linearGradient></defs>
-          <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#A6B1C6">
-            <rect x="24" y="22" width="592" height="54" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/>
-            <text x="40" y="43" fill="#687590" letter-spacing="2">L0 SURFACES</text>
-            <text x="40" y="63" fill="#EDF1F8">Teams · Copilot · Console · API · Voice</text>
-            <rect x="24" y="96" width="186" height="64" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/><text x="38" y="117" fill="#687590" letter-spacing="2">AGENT</text><text x="38" y="139" fill="#EDF1F8">plan · policy · checkpoints</text>
-            <rect x="227" y="96" width="186" height="64" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/><text x="241" y="117" fill="#687590" letter-spacing="2">FLOW</text><text x="241" y="139" fill="#EDF1F8">deterministic steps · SLAs</text>
-            <rect x="430" y="96" width="186" height="64" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/><text x="444" y="117" fill="#687590" letter-spacing="2">DOCS</text><text x="444" y="139" fill="#EDF1F8">extract · classify · confidence</text>
-            <rect x="24" y="182" width="592" height="78" rx="8" fill="url(#gcore)" stroke="#FF8A3D" stroke-opacity=".8"/>
-            <text x="40" y="206" fill="#FF8A3D" letter-spacing="2">L2 REASONING CORE</text>
-            <text x="40" y="228" fill="#EDF1F8" font-size="13" font-weight="600">Claude</text>
-            <text x="100" y="228" fill="#C7EDFF">tool use · extended context · batch · Agent SDK</text>
-            <text x="40" y="248" fill="#A6B1C6">gateway · routing · cache · RAG · ML signals · distilled models</text>
-            <rect x="24" y="282" width="137" height="46" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/><text x="38" y="309" fill="#EDF1F8">SAP</text>
-            <rect x="176" y="282" width="137" height="46" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/><text x="190" y="309" fill="#EDF1F8">Salesforce</text>
-            <rect x="328" y="282" width="137" height="46" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/><text x="342" y="309" fill="#EDF1F8">ServiceNow</text>
-            <rect x="480" y="282" width="136" height="46" rx="6" fill="#0C111C" stroke="rgba(140,170,220,.3)"/><text x="494" y="309" fill="#EDF1F8">M365 · Legacy UI</text>
-            <rect x="24" y="350" width="592" height="48" rx="6" fill="#0C111C" stroke="#8FD8FF" stroke-opacity=".6"/>
-            <text x="40" y="370" fill="#8FD8FF" letter-spacing="2">L4 TRUST PLANE</text>
-            <text x="40" y="388" fill="#EDF1F8">audit ledger · approvals · identity · residency (IN · EU) · observability</text>
-            <g stroke="#8FD8FF" stroke-width="1.4" fill="none" class="flow" opacity=".9"><path d="M117 76v20M320 76v20M523 76v20"/><path d="M117 160v22M320 160v22M523 160v22"/><path d="M92 260v22M244 260v22M396 260v22M548 260v22"/></g>
-            <g stroke="#FF8A3D" stroke-width="1.4" fill="none" class="flow"><path d="M320 328v22"/></g>
-          </g>
-        </svg>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="cases">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Where it lands first</span>
-      <h2>Document-heavy, rule-bound, expensive to get wrong.</h2>
-    </div>
-    <div class="cases" id="cases">
-      <div class="panel case" data-ind="finance"><div class="dom">Finance</div><h3>AP / AR close-the-loop</h3><p>Three-way match, exceptions, dunning and vendor correspondence handled end to end.</p></div>
-      <div class="panel case" data-ind="finance"><div class="dom">Procurement</div><h3>Contract &amp; PO intake</h3><p>Clause extraction, playbook checks, approver routing with deviations pre-highlighted.</p></div>
-      <div class="panel case" data-ind="insurance"><div class="dom">Insurance</div><h3>FNOL to settlement</h3><p>Read the pack, verify cover, chase gaps, prepare the adjuster's file.</p></div>
-      <div class="panel case" data-ind="banking"><div class="dom">Banking</div><h3>KYC &amp; onboarding</h3><p>Evidence assembly, policy checks and audit-ready records with sources linked.</p></div>
-      <div class="panel case" data-ind="it"><div class="dom">IT operations</div><h3>Service desk resolution</h3><p>Triage, diagnose and resolve common tickets; escalate with a full context pack.</p></div>
-      <div class="panel case" data-ind="manufacturing"><div class="dom">Manufacturing</div><h3>Maintenance &amp; quality</h3><p>Telemetry-driven work orders and vision inspection wired into SAP PM.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="claude">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Built on Claude</span>
-      <h2>Frontier reasoning, wrapped in enterprise discipline.</h2>
-      <p class="lede">We build on Anthropic's Claude because the work we automate is unforgiving. Long documents, exact tool calls and instructions that must be followed to the letter are where Claude is strongest, and its safety posture matters to the regulated customers we serve.</p>
-    </div>
-    <div class="split">
-      <div class="pillars">
-        <div class="pillar"><div class="n">01</div><div><h4>Long-context document understanding</h4><p>Whole contracts and multi-hundred-page claim packs in one pass, with citations back to the page.</p></div></div>
-        <div class="pillar"><div class="n">02</div><div><h4>Reliable tool use</h4><p>Typed tools over SAP, Salesforce, ServiceNow and Microsoft Graph with structured outputs validated before any write.</p></div></div>
-        <div class="pillar"><div class="n">03</div><div><h4>Instruction following and refusal</h4><p>Policies are instructions. Claude follows them and escalates when a case falls outside them, which is what an auditor wants to see.</p></div></div>
-        <div class="pillar"><div class="n">04</div><div><h4>Economics at volume</h4><p>Prompt caching, batch processing and routing keep a document-to-posting run in the cents, so the business case holds at scale.</p></div></div>
-      </div>
-      <div class="panel stack" aria-label="Volens stack">
-        <div class="row"><div class="lbl">Experience</div><div class="val">Studio · HIL console · Teams &amp; Copilot</div></div>
-        <div class="row"><div class="lbl">Agents</div><div class="val">Volens Agent · Flow · Docs · policy engine</div></div>
-        <div class="row on"><div class="lbl">Reasoning</div><div class="val">Claude <span>· tool use · extended context · batch · Agent SDK · computer use</span></div></div>
-        <div class="row"><div class="lbl">Knowledge</div><div class="val">RAG · vector + keyword · ML signals · distilled models</div></div>
-        <div class="row"><div class="lbl">Connectors</div><div class="val">MCP fabric · SAP · Salesforce · ServiceNow · M365 · UI fallback</div></div>
-        <div class="row"><div class="lbl">Trust</div><div class="val">Audit ledger · approvals · RBAC · residency (IN · EU)</div></div>
-        <div class="row"><div class="lbl">Deploy</div><div class="val">Volens Cloud <span>· AWS Bedrock · Vertex AI · Azure · customer VPC</span></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="path">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Working with us</span>
-      <h2>Ninety days from first call to an agent your auditors have signed off.</h2>
-      <p class="lede">A fixed path with a decision gate at each step. You can stop at any gate and keep everything produced so far.</p>
-    </div>
-    <div class="path">
-      <div class="panel"><div class="n">01</div><div class="when">Weeks 1–2 · Discover</div><h3>Pick the process that pays</h3><p>We map candidate processes with your team, pull real samples and traces, and build the business case you saw in the calculator, with your numbers.</p><ul><li>Opportunity map and ROI</li><li>Data and systems access plan</li><li>Go / no-go with a fixed pilot price</li></ul></div>
-      <div class="panel"><div class="n">02</div><div class="when">Weeks 3–10 · Pilot</div><h3>One real process, in production</h3><p>We build, evaluate and run the agent on live volume with human checkpoints, measuring straight-through rate, accuracy and cycle time weekly.</p><ul><li>Agent, connectors, HIL console</li><li>Evaluation suite from your traces</li><li>Security and audit review pack</li></ul></div>
-      <div class="panel"><div class="n">03</div><div class="when">Week 11+ · Scale</div><h3>Hand over, then multiply</h3><p>Your team runs it; we expand to the next processes on the same runtime, connectors and ledger, so each one costs less than the last.</p><ul><li>Enablement and runbooks</li><li>Roadmap of next agents</li><li>Platform subscription or managed service</li></ul></div>
-    </div>
-  </div>
-</section>
-
-<section id="roadmap">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Roadmap</span>
-      <h2>Agents today. Fleets of them next. Then the physical world.</h2>
-      <p class="lede">The name is Latin for "acting of one's own accord". The company is built so that what we learn giving software agents judgement carries straight into machines that move.</p>
-    </div>
-    <div class="road">
-      <div class="phase now"><div class="when">Now · 2026</div><h3>Document &amp; process agents</h3><p>Volens Docs and Volens Agent in production with design partners in finance, procurement, insurance and shared services.</p><ul><li>MCP connectors: SAP, Salesforce, ServiceNow, M365</li><li>Audit ledger and approval flows</li><li>India and EU deployments</li></ul></div>
-      <div class="phase"><div class="when">Next · 2027</div><h3>Multi-agent orchestration</h3><p>Volens Core and Studio: many specialised agents coordinated on one problem, designed and evaluated by the teams who own the process.</p><ul><li>Delegation, shared memory, budgets</li><li>SDK and connector marketplace</li><li>Copilot and Teams as first-class surfaces</li></ul></div>
-      <div class="phase"><div class="when">Beyond · 2028+</div><h3>Physical AI</h3><p>Volens Motion brings the same intent, policy and audit model to robots and automated facilities, so digital and physical work share one record.</p><ul><li>Fleet tasking, safety envelopes</li><li>Warehouse, lab and plant pilots</li><li>One trace across software and machines</li></ul></div>
-    </div>
-  </div>
-</section>
-
-<section id="trust">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Trust</span>
-      <h2>Autonomy you can hand to an auditor.</h2>
-    </div>
-    <div class="trust">
-      <div class="panel"><h4>Humans decide the hard cases</h4><p>Approval checkpoints are part of the agent's plan, not an afterthought. You set thresholds; the agent respects them.</p></div>
-      <div class="panel"><h4>Replayable audit ledger</h4><p>Inputs, prompts, outputs, tool calls, approvals and timing, sealed per run. Replay it a year later and get the same picture.</p></div>
-      <div class="panel"><h4>Your data stays yours</h4><p>No training on customer data. India and EU residency, customer-managed keys, VPC and air-gapped deployment options.</p></div>
-      <div class="panel"><h4>Controls for regulated industries</h4><p>RBAC, encryption in transit and at rest, retention policies and evidence exports built to support SOC 2, ISO 27001 and DPDP programmes.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="faq">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Questions we hear</span>
-      <h2>Straight answers.</h2>
-    </div>
-    <div class="faq">
-      <details><summary>How is this different from the RPA we already have?</summary><p>RPA replays recorded steps and stops when anything deviates. A Volens agent understands the goal and your policies, so it handles variation, explains what it did, and asks a human when it should. We also migrate existing bots gradually; nothing has to be ripped out on day one.</p></details>
-      <details><summary>Will an agent take actions we did not approve?</summary><p>No. Every agent runs inside a policy you define: which tools it may call, which thresholds require approval, and which actions are never automated. Those limits are enforced by the runtime, not just by the prompt, and every action is on the ledger.</p></details>
-      <details><summary>Where does our data go?</summary><p>You choose. Volens Cloud in India or the EU, your own AWS, Google Cloud or Azure account, or fully inside your VPC. We never train models on customer data, and keys can be customer-managed.</p></details>
-      <details><summary>Which systems can you connect to?</summary><p>SAP, Salesforce, ServiceNow, Microsoft 365, Dynamics 365, Workday and Oracle through typed connectors, any REST or OData API quickly, and legacy desktop or web applications through computer-use agents when there is no API.</p></details>
-      <details><summary>How long until something is live?</summary><p>A scoped pilot runs on live volume within six to eight weeks of kick-off, after a two-week discovery. Most design partners have a signed-off production agent inside ninety days.</p></details>
-      <details><summary>Do we need our own AI or data-science team?</summary><p>Not to start. Our engineers build the first agents with you and hand over with runbooks and enablement. Many customers then grow an internal team on top of Volens Studio and the SDK; we support either path.</p></details>
-    </div>
-  </div>
-</section>
-
-<section class="access" id="access">
-  <div class="wrap">
-    <div>
-      <span class="eyebrow">Early access</span>
-      <h2>Become a design partner.</h2>
-      <p class="lede">We are working with a small number of enterprises in finance, insurance, banking, manufacturing and shared services. Tell us about one process; we will come back with a view on what it is worth and how fast we could run it.</p>
-      <div class="gets">
-        <div>A scoped pilot on one real process, live within weeks</div>
-        <div>Our engineers in the room, then a clean hand-over</div>
-        <div>Pricing that reflects the help you give us</div>
-        <div>A say in the roadmap of Volens Core and Studio</div>
-      </div>
-      <div class="contact">
-        <div class="row"><span>Email</span><code id="mail">hello@volens.tech</code><button class="btn btn-ghost btn-sm" type="button" id="copy">Copy</button></div>
-        <div class="row"><span>HQ</span><span>Pune, Maharashtra, India</span></div>
-        <div class="row"><span>Serving</span><span>India · EU · UK · North America</span></div>
-      </div>
-    </div>
-    <div>
-      <form class="panel lead" id="form" novalidate>
-        <div class="f2">
-          <label>Name<input id="name" name="name" type="text" autocomplete="name" required></label>
-          <label>Work email<input id="email" name="email" type="email" autocomplete="email" required></label>
+      <div class="results" aria-live="polite">
+        <div class="result"><span class="big" id="r-hours">—</span><span class="lbl">Hours returned per month</span></div>
+        <div class="result"><span class="big accent" id="r-money">—</span><span class="lbl">Monthly value (INR)</span></div>
+        <div class="result wide">
+          <span class="big" id="r-fte">—</span><span class="lbl">Full-time equivalents redeployed</span>
+          <div class="meter" aria-hidden="true"><i id="r-bar"></i></div>
+          <p class="fine" id="r-annual">—</p>
+          <a class="btn btn-primary" href="#contact" data-track="cta_calc">Validate this with a pilot</a>
         </div>
-        <div class="f2">
-          <label>Company<input id="company" name="company" type="text" autocomplete="organization" required></label>
-          <label>Role<input id="role" name="role" type="text" autocomplete="organization-title"></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Working with us -->
+  <section class="section" id="path" aria-labelledby="path-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Working with us</p>
+        <h2 id="path-title">From first call to a production agent in about ninety days</h2>
+        <p class="lede">A fixed path with a decision gate at each step. You can stop at any gate and keep everything produced so far.</p>
+      </div>
+      <ol class="path">
+        <li>
+          <p class="when">Weeks 1 to 2</p>
+          <h3>Discover</h3>
+          <p>We map candidate processes with your team, pull real samples, and build the business case with your numbers. You get a fixed pilot price and a go or no-go.</p>
+        </li>
+        <li>
+          <p class="when">Weeks 3 to 10</p>
+          <h3>Pilot</h3>
+          <p>We build, test and run one agent on live volume with human checkpoints, measuring straight-through rate, accuracy and cycle time every week.</p>
+        </li>
+        <li>
+          <p class="when">Week 11 onwards</p>
+          <h3>Scale</h3>
+          <p>Your team runs it with our runbooks and training. We expand to the next processes on the same platform, so each one costs less than the last.</p>
+        </li>
+      </ol>
+      <div class="roadmap">
+        <h3>Where we are going</h3>
+        <p>Today: document and process agents with connectors for SAP, Salesforce, ServiceNow and Microsoft 365. Next: multi-agent orchestration and a studio for operations teams to design and test agents. Beyond: the same policy and audit model applied to robots and automated facilities.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security and trust -->
+  <section class="section alt" id="trust" aria-labelledby="trust-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Security and trust</p>
+        <h2 id="trust-title">Autonomy you can hand to an auditor</h2>
+      </div>
+      <ul class="trust-grid">
+        <li><h3>People decide the hard cases</h3><p>Approval checkpoints are part of each agent's plan. You set the thresholds; the agent respects them.</p></li>
+        <li><h3>Replayable audit record</h3><p>Inputs, model outputs, actions, approvals and timing are sealed for every run and can be replayed later.</p></li>
+        <li><h3>Your data stays yours</h3><p>Customer data is never used to train models. Deploy in India or the EU, with customer-managed keys and VPC options.</p></li>
+        <li><h3>Controls for regulated industries</h3><p>Role-based access, encryption in transit and at rest, retention policies and evidence exports designed to support SOC 2, ISO 27001 and DPDP programmes.</p></li>
+      </ul>
+      <p class="fine center">Built on Anthropic's Claude for reasoning. Available through our cloud, AWS, Google Cloud, Azure or your own VPC.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap narrow">
+      <div class="section-head">
+        <p class="eyebrow">Questions we hear</p>
+        <h2 id="faq-title">Frequently asked questions</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>How is this different from the RPA we already have?</summary>
+          <p>RPA replays recorded steps and stops when anything deviates. A Volens agent understands the goal and your policies, so it handles variation, explains what it did, and asks a person when it should. Existing bots can be migrated gradually; nothing has to be replaced on day one.</p>
+        </details>
+        <details>
+          <summary>Will an agent take actions we have not approved?</summary>
+          <p>No. Each agent runs inside a policy you define: which systems it may use, which thresholds need approval, and which actions are never automated. The runtime enforces those limits, and every action is on the record.</p>
+        </details>
+        <details>
+          <summary>Where does our data go?</summary>
+          <p>You choose: Volens Cloud in India or the EU, your own AWS, Google Cloud or Azure account, or fully inside your network. We never train models on customer data, and encryption keys can be customer-managed.</p>
+        </details>
+        <details>
+          <summary>Which systems can you connect to?</summary>
+          <p>SAP, Salesforce, ServiceNow, Microsoft 365, Dynamics 365, Workday and Oracle through typed connectors, any REST or OData API quickly, and legacy desktop or web applications through computer-use agents when there is no API.</p>
+        </details>
+        <details>
+          <summary>How long until something is live?</summary>
+          <p>A scoped pilot runs on live volume within six to eight weeks of kick-off, after a two-week discovery. The target is a signed-off production agent inside about ninety days.</p>
+        </details>
+        <details>
+          <summary>Do we need our own AI team?</summary>
+          <p>Not to start. Our engineers build the first agents with you and hand over with runbooks and training. Many customers then grow an internal team on top of the platform; we support either path.</p>
+        </details>
+        <details>
+          <summary>What does it cost?</summary>
+          <p>Discovery is fixed-price, and the pilot is quoted at the end of discovery based on volume and systems involved. Design partners receive preferential pricing in return for feedback and reference rights. Request a call and we will give you a range for your process.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / conversion -->
+  <span id="access" class="anchor" aria-hidden="true"></span>
+  <section class="section contact" id="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div>
+        <p class="eyebrow">Get started</p>
+        <h2 id="contact-title">Book a discovery call</h2>
+        <p class="lede">Tell us about one process you would like to automate. We will come back within two working days with a view on what it is worth and how quickly we could run it.</p>
+        <ul class="gets">
+          <li>A 30-minute call with an engineer, not a sales script</li>
+          <li>A written estimate of value and effort for your process</li>
+          <li>Design-partner pricing while the programme is open</li>
+        </ul>
+        <div class="contact-alt">
+          <p>Prefer email? <a href="mailto:hello@volens.tech" data-track="email_click">hello@volens.tech</a></p>
+          <p>Pune, Maharashtra, India · Serving India, the EU, the UK and North America</p>
         </div>
-        <label>What you'd build first
+      </div>
+      <form class="lead" id="lead" novalidate aria-describedby="lead-privacy">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" autocapitalize="words">
+          <p class="error" id="name-err" hidden>Please enter your name.</p>
+        </div>
+        <div class="field">
+          <label for="email">Work email</label>
+          <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required aria-required="true" placeholder="you@company.com">
+          <p class="error" id="email-err" hidden>Please enter a valid work email address.</p>
+        </div>
+        <div class="field">
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" autocomplete="organization" required aria-required="true">
+          <p class="error" id="company-err" hidden>Please enter your company name.</p>
+        </div>
+        <div class="field">
+          <label for="process">What would you automate first?</label>
           <select id="process" name="process">
-            <option>Document processing (AP, claims, KYC, contracts)</option>
-            <option>An autonomous agent for a business process</option>
-            <option>Multi-agent orchestration</option>
-            <option>RAG / enterprise knowledge</option>
-            <option>Copilot Studio or Microsoft 365 agents</option>
-            <option>RPA modernisation</option>
-            <option>Predictive ML or computer vision</option>
-            <option>AI infrastructure (gateway, MCP, observability)</option>
-            <option>Something else</option>
+            <option>Document processing (invoices, claims, KYC, contracts)</option>
+            <option>An end-to-end business process</option>
+            <option>Service desk or IT operations</option>
+            <option>Replacing or modernising existing RPA</option>
+            <option>Microsoft Copilot or Teams agents</option>
+            <option>Knowledge, search or forecasting models</option>
+            <option>Not sure yet</option>
           </select>
-        </label>
-        <label>Anything we should know<textarea id="notes" name="notes" placeholder="Volumes, systems involved, what's painful today"></textarea></label>
-        <button class="btn btn-primary" type="submit">Request early access</button>
-        <p class="fine" id="err" hidden>Please add your name, a work email and your company.</p>
-        <p class="fine">We reply within two working days. No newsletter, no drip sequence.</p>
+        </div>
+        <div class="field">
+          <label for="notes">Anything we should know <span class="opt">(optional)</span></label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Volumes, systems involved, what is painful today"></textarea>
+        </div>
+        <div class="field check">
+          <input id="consent" name="consent" type="checkbox" required aria-required="true">
+          <label for="consent">You may contact me about this enquiry. See the <a href="/privacy.html">privacy notice</a>.</label>
+          <p class="error" id="consent-err" hidden>Please confirm we may contact you.</p>
+        </div>
+        <button class="btn btn-primary btn-lg" type="submit" data-track="form_submit">Request a discovery call</button>
+        <p class="fine" id="lead-privacy">No newsletter and no automated follow-ups. We use your details only to reply to this enquiry.</p>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
-      <div class="sent" id="sent">Thanks. Your request is noted on this page. Until the form is wired to our inbox, please also send the same details to the email on the left so we can reply.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="/" aria-label="Volens home">
+        <svg class="mark" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true" focusable="false"><path d="M4 7 L16 27 L28 7" stroke="#FF8A3D" stroke-width="3.2" fill="none" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16" cy="9" r="2.6" fill="#8FD8FF"/></svg>
+        <span class="wordmark">VOLENS</span>
+      </a>
+      <p>Autonomous agents for enterprise operations. Systems with intent.</p>
+      <p>Pune, Maharashtra, India</p>
+    </div>
+    <nav aria-label="Footer">
+      <h2 class="foot-h">Explore</h2>
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#impact">Impact estimate</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2 class="foot-h">Contact</h2>
+      <ul>
+        <li><a href="mailto:hello@volens.tech" data-track="email_click">hello@volens.tech</a></li>
+        <li><a href="#contact">Book a discovery call</a></li>
+        <li><a href="https://www.linkedin.com/company/volens" rel="noopener" target="_blank">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Legal</h2>
+      <ul>
+        <li><a href="/privacy.html">Privacy notice</a></li>
+        <li><a href="/privacy.html#cookies">Cookies</a></li>
+      </ul>
     </div>
   </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <span class="brand"><svg viewBox="0 0 32 32" width="18" height="18" fill="none" aria-hidden="true"><path d="M4 7 L16 27 L28 7" stroke="var(--signal)" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16" cy="9" r="2.8" fill="var(--ice)"/></svg>VOLENS</span>
-    <span>systems with intent · pune, in · © 2026 volens · product names and availability subject to change</span>
+  <div class="wrap foot-base">
+    <p>© 2026 Volens. All rights reserved. Product names and availability are subject to change.</p>
+    <a class="totop" href="#main">Back to top</a>
   </div>
 </footer>
-<button class="totop" id="totop" aria-label="Back to top"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 13V3M3 8l5-5 5 5"/></svg></button>
 
-<script>
-(function(){
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---------- personalisation ---------- */
-  var P={
-    finance:{lede:'Volens builds autonomous agents for finance and shared-services operations. They read invoices and contracts, apply your policies, post to SAP and Salesforce, and prove every step to your auditors.',
-      title:'volens-agent · ap-invoice · run #V-2048',meta:'model=claude · cache_hit=0.81 · tokens=41k',cost:'cost €0.21 · human 40s',vol:8000,mins:12,
-      log:[['00:00.0','ingest','invoice_8841.pdf <b>3 pages</b> · scanned · de-DE'],['00:01.2','extract','vendor <b>Hartmann GmbH</b> · total <b>€48,120.00</b> · conf 0.98'],['00:01.9','match','PO <b>4500217</b> via SAP OData · 13/14 lines'],['00:02.4','reason','line 9 qty 120 vs PO 100 · variance <b>+20%</b>'],['00:02.5','policy','AP-07 · variance &gt; 5% ⇒ approver required'],['00:02.6','act','teams.card → <b>r.mehta</b> · context pack attached'],['14:07.1','approved','partial · 100 units · note recorded'],['14:07.3','act','sap.post · doc <b>5100098812</b>'],['14:07.4','act','mail.send · credit note requested'],['14:07.5','sealed','11 steps · 3 tools · 1 human decision']]},
-    insurance:{lede:'Volens builds autonomous agents for insurance operations. They read claim packs, verify cover against policy wording, chase missing evidence and prepare the adjuster\'s file, with every decision on the record.',
-      title:'volens-agent · motor-claim · run #V-3310',meta:'model=claude · cache_hit=0.77 · tokens=66k',cost:'cost ₹31 · human 3m',vol:5000,mins:25,
-      log:[['00:00.0','ingest','FNOL email + 9 attachments · photos, FIR, estimate'],['00:01.8','extract','policy <b>MC-77120</b> · incident 03 Oct · claimed <b>₹1,84,000</b>'],['00:02.6','verify','cover active · own-damage · excess ₹5,000'],['00:03.1','reason','estimate 28% above regional benchmark for parts'],['00:03.2','policy','CL-12 · variance &gt; 20% ⇒ surveyor review'],['00:03.3','act','mail.send → claimant · request garage invoice'],['00:03.4','act','servicenow.task → <b>surveyor pool</b> · priority P2'],['26:40.0','approved','surveyor adjusted to <b>₹1,52,000</b>'],['26:40.2','act','core.reserve.update · payout queued'],['26:40.3','sealed','12 steps · 4 tools · 1 human decision']]},
-    banking:{lede:'Volens builds autonomous agents for banks and fintechs. They assemble KYC evidence, screen against policy, resolve onboarding exceptions and leave an audit trail your compliance team can replay.',
-      title:'volens-agent · kyc-onboard · run #V-5172',meta:'model=claude · cache_hit=0.84 · tokens=29k',cost:'cost ₹14 · human 55s',vol:12000,mins:18,
-      log:[['00:00.0','ingest','application <b>#A-88213</b> · PAN, Aadhaar (masked), bank proof'],['00:00.9','extract','name match 0.99 · DOB match · address partial'],['00:01.4','screen','PEP/sanctions · <b>no hit</b> · adverse media none'],['00:01.9','reason','address proof older than 90 days'],['00:02.0','policy','KYC-04 · stale proof ⇒ request fresh document'],['00:02.1','act','sms+mail → applicant · upload link issued'],['41:12.0','ingest','utility bill · dated 22 Sep · address match 0.97'],['41:12.6','act','cbs.create_customer · CIF <b>00928811</b>'],['41:12.8','act','crm.update · onboarding complete'],['41:12.9','sealed','13 steps · 5 tools · 0 human decisions']]},
-    manufacturing:{lede:'Volens builds autonomous agents for manufacturers. They watch plant telemetry, read inspection images and supplier documents, raise and close work orders in SAP PM, and keep a sealed record of every intervention.',
-      title:'volens-agent · pm-anomaly · run #V-7781',meta:'model=claude · cache_hit=0.72 · tokens=22k',cost:'cost ₹9 · human 2m',vol:3000,mins:30,
-      log:[['00:00.0','ingest','OPC UA stream · compressor <b>C-14</b> · 6 signals'],['00:00.4','detect','vibration RMS +38% vs 30-day baseline'],['00:00.9','reason','pattern matches bearing wear · confidence 0.91'],['00:01.2','retrieve','OEM manual §4.3 · last service 212 days'],['00:01.3','policy','PM-09 · predicted failure &lt; 14d ⇒ planner approval'],['00:01.4','act','teams.card → <b>shift planner</b> · evidence attached'],['09:15.0','approved','schedule in Sunday window'],['09:15.2','act','sap.pm.create_order · <b>WO 4000132</b>'],['09:15.3','act','mrp.reserve · bearing kit 2x'],['09:15.4','sealed','10 steps · 4 tools · 1 human decision']]},
-    it:{lede:'Volens builds autonomous agents for IT and technology operations. They triage tickets, diagnose from logs, fix what is safe to fix in ServiceNow and Microsoft 365, and escalate the rest with the context already gathered.',
-      title:'volens-agent · itsm-triage · run #V-9024',meta:'model=claude · cache_hit=0.88 · tokens=18k',cost:'cost ₹6 · human 0s',vol:20000,mins:9,
-      log:[['00:00.0','ingest','INC0098122 · "cannot access shared mailbox"'],['00:00.6','retrieve','user <b>a.kulkarni</b> · dept Finance · 3 similar incidents'],['00:01.0','diagnose','graph.permissions · mailbox role missing since 02 Oct'],['00:01.3','reason','matches standard-change SC-114'],['00:01.4','policy','SC-114 pre-approved for same-department access'],['00:01.5','act','graph.assign_role · FullAccess · AP-Shared'],['00:01.9','verify','test access · <b>OK</b>'],['00:02.0','act','servicenow.resolve · worknote with evidence'],['00:02.1','act','teams.message → user · how-to attached'],['00:02.2','sealed','9 steps · 3 tools · 0 human decisions']]}
-  };
-  var log=document.getElementById('termLog');
-  function renderLog(d){
-    log.innerHTML='';
-    d.log.forEach(function(r,i){
-      var li=document.createElement('li');var cls=r[1]==='act'?'k act':(r[1]==='approved'||r[1]==='sealed'||r[1]==='verify')?'k ok':'k';
-      li.innerHTML='<span class="t">'+r[0]+'</span><span class="'+cls+'">'+r[1]+'</span><span class="v">'+r[2]+(i===d.log.length-1?'<span class="cursor"></span>':'')+'</span>';
-      li.style.animationDelay=(reduce?0:i*.07)+'s';log.appendChild(li);
-    });
-    document.getElementById('termTitle').textContent=d.title;
-    document.getElementById('termMeta').textContent=d.meta;
-    document.getElementById('termCost').textContent=d.cost;
-  }
-  var seg=document.getElementById('seg');
-  function persona(key,fromUser){
-    var d=P[key]||P.finance;
-    seg.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.p===key?'true':'false')});
-    document.getElementById('heroLede').textContent=d.lede;
-    renderLog(d);
-    document.querySelectorAll('.case').forEach(function(c){c.classList.toggle('featured',c.dataset.ind===key)});
-    if(fromUser){vol.value=d.vol;mins.value=d.mins;calc()}
-    try{localStorage.setItem('volens-persona',key)}catch(e){}
-  }
-  seg.addEventListener('click',function(e){var b=e.target.closest('button');if(b)persona(b.dataset.p,true)});
-
-  /* ---------- calculator ---------- */
-  var vol=document.getElementById('vol'),mins=document.getElementById('mins'),rate=document.getElementById('rate'),auto=document.getElementById('auto');
-  var inr=function(n){return '₹'+Math.round(n).toLocaleString('en-IN')};
-  function calc(){
-    var v=+vol.value,m=+mins.value,r=+rate.value,a=+auto.value/100;
-    var hoursToday=v*m/60;
-    var saved=hoursToday*(a*1+(1-a)*.6);
-    var money=saved*r;
-    var fte=saved/160;
-    document.getElementById('volOut').textContent=v.toLocaleString('en-IN');
-    document.getElementById('minsOut').textContent=m;
-    document.getElementById('rateOut').textContent=inr(r);
-    document.getElementById('autoOut').textContent=Math.round(a*100)+'%';
-    document.getElementById('hours').textContent=Math.round(saved).toLocaleString('en-IN');
-    document.getElementById('money').textContent=inr(money);
-    document.getElementById('fte').textContent=fte.toFixed(1)+' FTE';
-    document.getElementById('bar').style.width=Math.min(100,Math.round(saved/hoursToday*100))+'%';
-    document.getElementById('annual').textContent='About '+inr(money*12)+' per year from this one process, before error reduction, faster cycle times and audit savings.';
-  }
-  [vol,mins,rate,auto].forEach(function(el){el.addEventListener('input',calc)});
-
-  /* restore persona then compute */
-  var saved=null;try{saved=localStorage.getItem('volens-persona')}catch(e){}
-  persona(saved&&P[saved]?saved:'finance',false);calc();
-
-  /* ---------- ambient field ---------- */
-  var c=document.getElementById('field'),ctx=c.getContext('2d'),w,h,pts=[],raf;
-  function size(){var r=c.getBoundingClientRect();w=c.width=Math.floor(r.width*devicePixelRatio);h=c.height=Math.floor(r.height*devicePixelRatio)}
-  function seedPts(){pts=[];var n=Math.max(34,Math.min(90,Math.floor(w/20)));for(var i=0;i<n;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.26*devicePixelRatio,vy:(Math.random()-.5)*.26*devicePixelRatio,r:(Math.random()*1.3+.7)*devicePixelRatio,a:Math.random()<.12})}
-  function draw(){
-    ctx.clearRect(0,0,w,h);var d=130*devicePixelRatio;
-    for(var i=0;i<pts.length;i++){var p=pts[i];
-      if(!reduce){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1}
-      for(var j=i+1;j<pts.length;j++){var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<d){ctx.globalAlpha=(1-dist/d)*.42;ctx.strokeStyle=(p.a||q.a)?'#FF8A3D':'#8FD8FF';ctx.lineWidth=devicePixelRatio*.7;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke()}}}
-    for(var k=0;k<pts.length;k++){var s=pts[k];ctx.globalAlpha=s.a?1:.7;ctx.fillStyle=s.a?'#FF8A3D':'#8FD8FF';ctx.beginPath();ctx.arc(s.x,s.y,s.a?s.r*1.8:s.r,0,Math.PI*2);ctx.fill();
-      if(s.a){ctx.globalAlpha=.25;ctx.beginPath();ctx.arc(s.x,s.y,s.r*5,0,Math.PI*2);ctx.strokeStyle='#FF8A3D';ctx.lineWidth=devicePixelRatio*.6;ctx.stroke()}}
-    ctx.globalAlpha=1;if(!reduce)raf=requestAnimationFrame(draw);
-  }
-  function start(){cancelAnimationFrame(raf);size();seedPts();draw()}
-  start();var t;window.addEventListener('resize',function(){clearTimeout(t);t=setTimeout(start,150)});
-
-  /* ---------- spotlight, tabs ---------- */
-  document.querySelectorAll('.cap').forEach(function(card){card.addEventListener('pointermove',function(e){var r=card.getBoundingClientRect();card.style.setProperty('--mx',(e.clientX-r.left)+'px');card.style.setProperty('--my',(e.clientY-r.top)+'px')})});
-  var tabs=document.querySelectorAll('.tab'),panes=document.querySelectorAll('.pane');
-  function select(tab){tabs.forEach(function(x){x.setAttribute('aria-selected',x===tab?'true':'false')});panes.forEach(function(p){p.hidden=p.id!==tab.getAttribute('aria-controls')});try{localStorage.setItem('volens-tab',tab.id)}catch(e){}}
-  tabs.forEach(function(tab){tab.addEventListener('click',function(){select(tab)})});
-  try{var st=localStorage.getItem('volens-tab');if(st&&document.getElementById(st))select(document.getElementById(st))}catch(e){}
-
-  /* ---------- nav: sheet, active section, to-top ---------- */
-  var sheet=document.getElementById('sheet'),burger=document.getElementById('burger');
-  function openSheet(o){sheet.classList.toggle('open',o);sheet.setAttribute('aria-hidden',o?'false':'true');burger.setAttribute('aria-expanded',o?'true':'false');document.body.style.overflow=o?'hidden':''}
-  burger.addEventListener('click',function(){openSheet(true)});
-  document.getElementById('close').addEventListener('click',function(){openSheet(false)});
-  sheet.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){openSheet(false)})});
-  var secs=['top','why','how','capabilities','impact','arch','claude','path','access'];
-  var links=document.querySelectorAll('[data-sec]');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.toggle('active',l.dataset.sec===e.target.id)})}})},{rootMargin:'-40% 0px -55% 0px'});
-    secs.forEach(function(id){var el=document.getElementById(id);if(el)io.observe(el)});
-  }
-  var totop=document.getElementById('totop');
-  window.addEventListener('scroll',function(){totop.classList.toggle('show',window.scrollY>900)},{passive:true});
-  totop.addEventListener('click',function(){window.scrollTo({top:0,behavior:reduce?'auto':'smooth'})});
-
-  /* ---------- copy + form ---------- */
-  var copy=document.getElementById('copy'),mail=document.getElementById('mail');
-  copy.addEventListener('click',function(){var txt=mail.textContent;function fb(){var r=document.createRange();r.selectNodeContents(mail);var s=getSelection();s.removeAllRanges();s.addRange(r);copy.textContent='Selected'}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){copy.textContent='Copied'},fb)}else fb();setTimeout(function(){copy.textContent='Copy'},1800)});
-  var form=document.getElementById('form'),err=document.getElementById('err'),sent=document.getElementById('sent');
-  /* Set FORM_ENDPOINT to a Formspree / Web3Forms / your own API URL to receive submissions by email. Leave empty to keep the on-page confirmation only. */
-  var FORM_ENDPOINT='';
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var ok=form.name.value.trim()&&form.company.value.trim()&&/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email.value.trim());
-    err.hidden=!!ok;if(!ok)return;
-    function done(okSend){form.hidden=true;sent.style.display='block';if(okSend)sent.textContent='Thanks. Your request is in. We reply within two working days.';sent.scrollIntoView({behavior:'smooth',block:'nearest'})}
-    if(!FORM_ENDPOINT){done(false);return}
-    var btn=form.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Sending…';
-    var data={};new FormData(form).forEach(function(v,k){data[k]=v});data.industry=(seg.querySelector('[aria-pressed="true"]')||{}).dataset?seg.querySelector('[aria-pressed="true"]').dataset.p:'';data.page=location.href;
-    fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)})
-      .then(function(r){done(r.ok)}).catch(function(){done(false)});
-  });
-})();
-</script>
+<script src="/main.js" defer></script>
 </body>
 </html>
